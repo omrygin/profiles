@@ -178,8 +178,8 @@ class Profile:
         
         return mass_enclosed / (4*np.pi*r**3/3)
     
-
-    def fit_profile(self,rdata,data,p0=None,logfit=True,new_name=None,**kwargs):
+    @classmethod
+    def fit_profile(cls,rdata,data,trunc_r,p0=None,logfit=True,name=None,**kwargs):
         """
         Fits the density profile to data.
         
@@ -195,9 +195,11 @@ class Profile:
         data - 1D array of data points of the same size as rdata.
                It is assumed that the fit is for data = density(rdata).
                
+        trunc_r - The truncation radius of the model.
+        
         p0 - Initial guess tuple passed to curve_fit. See above about ordering.
         
-        logfit - Whether to fit self.density or np.log10(self.density)
+        logfit - Whether to fit density or np.log10(density)
         
         new_name - Name of the returned profile. If None, appends ' fit'
                    to the name of the calling profile.
@@ -219,14 +221,14 @@ class Profile:
             raise ValueError("'rdata' and 'data' must be of the same size")
         
         if logfit:
-            fit_func = lambda r,*p: np.log10(self.__class__(self.trunc_r,*p,name=None).density(r))
+            fit_func = lambda r,*p: np.log10(cls(trunc_r,*p,name=None).density(r))
         else:
-            fit_func = lambda r,*p: self.__class__(self.trunc_r,*p,name=None).density(r)
+            fit_func = lambda r,*p: cls(trunc_r,*p,name=None).density(r)
               
 
         params,pcov = curve_fit(fit_func,rdata,data,p0=p0,**kwargs)
-        new_name = self._name+' fit' if new_name is None else new_name
-        fitted_profile = self.__class__(self.trunc_r,*params,name=new_name)
+        name = cls.__name__ if name is None else name
+        fitted_profile = cls(trunc_r,*params,name=name)
         return fitted_profile,params,pcov
 
 
