@@ -2,7 +2,6 @@ import numpy as np
 from scipy.integrate import quad
 import matplotlib.pyplot as plt
 from scipy.optimize import curve_fit
-import io
 
 G = 4.492*10**(-6) #kpc^3/Modot/Gyr^2
 
