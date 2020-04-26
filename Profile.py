@@ -193,7 +193,8 @@ class Profile:
         rdata - 1D array of points.
         
         data - 1D array of data points of the same size as rdata.
-               It is assumed that the fit is for data = density(rdata).
+               It is assumed that the fit is for data = density(rdata)
+               if logfit=False, else it is assumed that data = log10(density(rdata)).
                
         trunc_r - The truncation radius of the model.
         
