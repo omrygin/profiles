@@ -24,7 +24,7 @@ class Dekel(Profile):
         return rho_c_bar / (x**a*(1+x**(1/2))**(2*(3.-a)))
     
     def mass(self,r):
-        return 4*np.pi*r**3 * self.average_density(r)
+        return 4*np.pi*r**3 * self.average_density(r) / 3
     
     @staticmethod
     def mu(c,a):
@@ -42,7 +42,7 @@ class Dekel(Profile):
         return (1-a/3)*rho_c
     
     @staticmethod
-    def getModelParams(Mv,Rv,c,a):
+    def canonicalToModelParams(Mv,Rv,c,a):
         rho_c = Dekel.rho_c(Mv,Rv,c,a)
         rho = Dekel.rho(a,rho_c)
         return rho,Rv/c,a
