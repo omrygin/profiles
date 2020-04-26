@@ -22,8 +22,8 @@ class Profile:
         name - Name of the profile. Appears in plots and
                when printing a class instance. If None,
                the name is set to the class name.
-        **kwargs - Should contain all the free parameters of the profile.
-                   All profile parameters should pass through **kwargs.
+        **kwargs - Should contain all the free parameters of the model.
+                   All model parameters should pass through **kwargs.
                    
         """
         
@@ -51,7 +51,7 @@ class Profile:
 
     def density(self,r):
         """
-        The spherical density of the profile.
+        The spherical density profile of the model.
         This method must be implemented (as it is the core of the class).
         When overridden, should accept only 'self' and 'r'.
         
@@ -63,9 +63,9 @@ class Profile:
 
     def mass(self,r,r_min=0.,quad_output = False,**kwargs):
         """
-        The mass profile of Profile.
+        The mass profile of the model.
         If not overriden, returns the numerically integrated
-        mass inside 'r'. If the profile has an analytic
+        mass inside 'r'. If the model has an analytic
         expression for the mass profile, this should be overriden.
         
         Parameters
@@ -181,7 +181,7 @@ class Profile:
 
     def fit_profile(self,rdata,data,p0=None,logfit=True,new_name=None,**kwargs):
         """
-        Fits the profile to data.
+        Fits the density profile to data.
         
         The parameters in the p0 initial guess tuple should be ordered
         in the exact same way they were passed to the constructor, after trunc_r.
@@ -236,7 +236,7 @@ class Profile:
                  ax=None,r_max=None,legend=True,normalized=True,
                  logspaced=True,**kwargs):
         """
-        Plot the density of the calling profile between r_min and self.trunc_r.
+        Plot the density of the calling model between r_min and self.trunc_r.
         If self.trunc_r = np.inf, r_max should be defined.
         
         Parameters
@@ -306,6 +306,15 @@ class Profile:
             return fig,ax1
 
 
+    @staticmethod
+    def canonicalToModelParams():
+        """ 
+        A method to transform `canonical parameters`,
+        such as Rv,Mv, concentration, slope etc.
+        to model-specific parameters such as rho_0, r_s etc.
+        """
+        raise NotImplementedError
+        
     @property
     def name(self):
         return self._name
