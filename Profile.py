@@ -201,8 +201,8 @@ class Profile:
         
         logfit - Whether to fit density or np.log10(density)
         
-        new_name - Name of the returned profile. If None, appends ' fit'
-                   to the name of the calling profile.
+        name - Name of the returned profile. If None, returns
+                the name of the calling class.
                    
         **kwargs - Additional arguments to pass to curve_fit
         
