@@ -25,3 +25,25 @@ class Dekel(Profile):
     
     def mass(self,r):
         return 4*np.pi*r**3 * self.average_density(r)
+    
+    @staticmethod
+    def mu(c,a):
+        return c**(a-3)*(1+c**(1/2))**(2*(3-a))
+    @staticmethod
+    def rho_vir(Mv,Rv):
+        return 3*Mv/(4*np.pi*Rv**3)
+    @staticmethod
+    def rho_c(Mv,Rv,c,a):
+        mu = Dekel.mu(c,a)
+        rho_vir = Dekel.rho_vir(Mv,Rv)
+        return c**3*mu*rho_vir
+    @staticmethod
+    def rho(a,rho_c):
+        return (1-a/3)*rho_c
+    
+    @staticmethod
+    def getModelParams(Mv,Rv,c,a):
+        rho_c = Dekel.rho_c(Mv,Rv,c,a)
+        rho = Dekel.rho(a,rho_c)
+        return rho,Rv/c,a
+        
