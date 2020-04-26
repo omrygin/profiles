@@ -2,6 +2,7 @@ import numpy as np
 from scipy.integrate import quad
 import matplotlib.pyplot as plt
 from scipy.optimize import curve_fit
+import io
 
 G = 4.492*10**(-6) #kpc^3/Modot/Gyr^2
 
@@ -34,6 +35,10 @@ class Profile:
             self._name = self.__class__.__name__
         else:
             self._name = name
+        try:
+            self.density(1)
+        except Exception as error:
+            raise error
     
     def __str__(self):
         output = self._name + ': '
